@@ -1,7 +1,7 @@
 const net = require('net');
 
-const localServerPort = 5003;
-const remoteServerPort = 5001;
+const LOCAL_SERVER_PORT = 5003;
+const REMOTE_SERVER_PORT = 5001;
 
 let serverEventList = {
     error(err) {
@@ -32,20 +32,31 @@ function register(target, eventList) {
     }
 }
 
+let localSocket;
+
 const tcpServer = net.createServer((socket) => {
-    ;
+    localSocket = socket;
+
+    socket.on('close', () => {
+        localSocket = null;
+    })
+
+    socket.on('data', (chunk) => {
+        if (chunk != null) {
+            remoteSocket.write(chunk);
+        }
+    })
 });
 
-const remoteSocket = net.createConnection({port: remoteServerPort}, () => {
-    ;
-})
-
-const localSocket = net.createConnection({port: localServerPort}, () => {
-    ;
+const remoteSocket = net.createConnection({port: REMOTE_SERVER_PORT}, () => {
+    remoteSocket.on('data', (chunk) => {
+        if (localSocket != null && chunk != null) {
+            localSocket.write(chunk);
+        }
+    })
 })
 
 register(tcpServer, serverEventList);
 register(remoteSocket, socketEventList);
-register(localSocket, socketEventList);
 
-tcpServer.listen(localServerPort);
+tcpServer.listen(LOCAL_SERVER_PORT);
