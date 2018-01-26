@@ -1,6 +1,7 @@
 const net = require('net');
 
 const SERVER_PORT = 5001;
+const PROXY_PORT = 5003;
 
 const eventList = {
     error(err) {
@@ -20,7 +21,7 @@ const eventList = {
     }
 }
 
-const client = net.createConnection({port: SERVER_PORT}, () => {
+const client = net.createConnection({port: PROXY_PORT}, () => {
     client.write('hello');
 });
 
