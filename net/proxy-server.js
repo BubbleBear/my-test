@@ -1,5 +1,6 @@
 const net = require('net');
 
+const localServerPort = 5003;
 const remoteServerPort = 5001;
 
 let serverEventList = {
@@ -14,7 +15,7 @@ let serverEventList = {
     }
 }
 
-let socketEventList =    {
+let socketEventList = {
     error(err) {
         console.log(err);
         this.destroy();
@@ -35,6 +36,16 @@ const tcpServer = net.createServer((socket) => {
     ;
 });
 
-register(tcpServer, serverEventList);
+const remoteSocket = net.createConnection({port: remoteServerPort}, () => {
+    ;
+})
 
-tcpServer.listen(5001);
+const localSocket = net.createConnection({port: localServerPort}, () => {
+    ;
+})
+
+register(tcpServer, serverEventList);
+register(remoteSocket, socketEventList);
+register(localSocket, socketEventList);
+
+tcpServer.listen(localServerPort);
