@@ -5,17 +5,8 @@ const url = require('url');
 const PROXY_PORT = 5555;
 
 function proxyRequest(cReq, cRes) {
-    const u = url.parse(cReq.url);
-
-    console.log(u);
-
-    const options = {
-        hostname: u.host,
-        port: u.port,
-        path: u.pathname,
-        headers: cReq.headers,
-        method: cReq.method
-    };
+    let options = url.parse(cReq.url);
+    options.headers = cReq.headers;
 
     pReq = http.request(options, (pRes) => {
         cRes.writeHead(pRes.statusCode, pRes.headers);
