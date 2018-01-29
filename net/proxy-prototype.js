@@ -1,6 +1,6 @@
 const net = require('net');
 
-const LOCAL_SERVER_PORT = 5003;
+const LOCAL_SERVER_PORT = 5555;
 const REMOTE_SERVER_PORT = 5001;
 
 let serverEventList = {
@@ -43,6 +43,7 @@ const tcpServer = net.createServer((socket) => {
 
     socket.on('data', (chunk) => {
         if (chunk != null) {
+            console.log(chunk.toString())
             remoteSocket.write(chunk);
         }
     })
