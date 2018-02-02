@@ -5,7 +5,6 @@ const SERVER_PORT = 5001;
 const serverEventList = {
     error(err) {
         console.log(err);
-        this.close();
     },
 
     listening() {
