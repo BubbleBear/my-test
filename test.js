@@ -1,7 +1,7 @@
-const util = require('util');
-
-module.exports = class {
-    constructor() {
-        console.log(require.main);
-    }
+function abc() {
+    console.log('abc');
 }
+
+let x = 'abc';
+
+[x]()
