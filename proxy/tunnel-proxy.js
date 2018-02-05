@@ -17,12 +17,12 @@ function tunnelProxy(cReq, cSock, head) {
     });
 }
 
-const server = http.createServer()
-    .on('connect', tunnelProxy)
-    .listen(PROXY_PORT);
+// const server = http.createServer()
+//     .on('connect', tunnelProxy)
+//     .listen(PROXY_PORT);
 
-server.on('error', (e) => {
-    console.dir(e);
-});
+// server.on('error', (e) => {
+//     console.dir(e);
+// });
 
 module.exports = tunnelProxy;

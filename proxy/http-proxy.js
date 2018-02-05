@@ -1,26 +1,10 @@
 const http = require('http');
-const url = require('url');
+const legacyProxy = require('./legacy-proxy');
+const tunnelProxy = require('./tunnel-proxy');
 
 const PROXY_PORT = 5555;
 
-function httpProxy(cReq, cRes) {
-    let options = url.parse(cReq.url);
-    options.headers = cReq.headers;
-
-    let sReq = http.request(options, (sRes) => {
-        cRes.writeHead(sRes.statusCode, sRes.headers);
-        sRes.pipe(cRes);
-    }).on('error', (e) => {
-        console.log(e);
-    });
-
-    cReq.pipe(sReq);
-}
-
-const server = http.createServer(httpProxy).listen(PROXY_PORT);
-
-server.on('error', (e) => {
-    console.dir(e);
-})
-
-module.exports = httpProxy;
+const server = http.createServer().
+                    on('connect', tunnelProxy).
+                    on('request', legacyProxy).
+                    listen(PROXY_PORT);
