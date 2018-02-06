@@ -2,8 +2,6 @@ const http = require('http');
 const net = require('net');
 const url = require('url');
 
-const PROXY_PORT = 6666;
-
 function tunnelProxy(cReq, cSock, head) {
     let u = url.parse('http://' + cReq.url);
 
@@ -17,12 +15,16 @@ function tunnelProxy(cReq, cSock, head) {
     });
 }
 
-// const server = http.createServer()
-//     .on('connect', tunnelProxy)
-//     .listen(PROXY_PORT);
+if (require.main === module) {
+    const PROXY_PORT = 6666;
 
-// server.on('error', (e) => {
-//     console.dir(e);
-// });
+    const server = http.createServer()
+        .on('connect', tunnelProxy)
+        .listen(PROXY_PORT);
+
+    server.on('error', (e) => {
+        console.dir(e);
+    });
+}
 
 module.exports = tunnelProxy;

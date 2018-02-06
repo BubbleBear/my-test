@@ -1,8 +1,6 @@
 const http = require('http');
 const url = require('url');
 
-const PROXY_PORT = 5555;
-
 function legacyProxy(cReq, cRes) {
     let options = url.parse(cReq.url);
     options.headers = cReq.headers;
@@ -17,10 +15,14 @@ function legacyProxy(cReq, cRes) {
     cReq.pipe(sReq);
 }
 
-// const server = http.createServer(legacyProxy).listen(PROXY_PORT);
+if (require.main === module) {
+    const PROXY_PORT = 5555;
 
-// server.on('error', (e) => {
-//     console.dir(e);
-// })
+    const server = http.createServer(legacyProxy).listen(PROXY_PORT);
+
+    server.on('error', (e) => {
+        console.dir(e);
+    })
+}
 
 module.exports = legacyProxy;

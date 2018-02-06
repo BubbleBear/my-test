@@ -1,13 +1,27 @@
-const test = require('./chain');
-const cluster = require('cluster');
-const os = require('os');
+const fs = require('fs');
+const stream = require('stream');
 
-// new test();
-let i = 0;
-console.log(i++);
+const rs = fs.createReadStream('chain.js')
 
-if (cluster.isMaster) {
-    cluster.fork();
+class D extends stream.Duplex {
+    constructor(opt) {
+        super(opt);
+    }
+
+    _read(size) {
+        while (this._readableState.buffer.length) {
+            this.push(this._readableState.buffer.shift());
+        }
+    }
+
+    _write(chunk, encoding, callback) {
+        this._readableState.buffer.push(chunk);
+        fs.createWriteStream('tmp').write(chunk);
+        this._read(chunk.size);
+        callback();
+    }
 }
 
-console.log('ojbk');
+let d = new D()
+
+rs.pipe(d).pipe(process.stdout)
