@@ -7,9 +7,19 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
         let options = url.parse(cReq.url);
         options.headers = cReq.headers;
 
+        const fs = require('fs')
+        const ws = fs.createWriteStream('tmp')
+
         let sReq = http.request(options, (sRes) => {
             cRes.writeHead(sRes.statusCode, sRes.headers);
-            sRes.pipe(new Decipher()).pipe(cRes);
+            // sRes.pipe(new Decipher()).pipe(cRes);
+            sRes.on('data', chunk => {
+                !ws._writableState.ended && chunk && ws.write(chunk.toString());
+                cRes.write(chunk);
+            }).on('end', () => {
+                !ws._writableState.ended && ws.end();
+                cRes.end();
+            })
         }).on('error', (e) => {
             console.log(e);
         });

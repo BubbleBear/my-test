@@ -21,8 +21,8 @@ const eventList = {
     }
 }
 
-const client = net.createConnection({port: PROXY_PORT}, () => {
-    client.write('hello');
+const client = net.createConnection({port: SERVER_PORT}, () => {
+    client.write(Symbol('hello').toString());
 });
 
 for (let event in eventList) {
