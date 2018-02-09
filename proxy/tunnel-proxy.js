@@ -6,6 +6,7 @@ const DummyCipher = require('../cipher/dummy');
 function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: DummyCipher}) {
     return function tunnelProxy(cReq, cSock, head) {
         let u = url.parse('http://' + cReq.url);
+        u.port || (u.port = 80);
 
         let sSock = net.connect({port: u.port, host: u.hostname}, () => {
             cSock.write('HTTP/1.1 200 Connection Established\r\n\r\n');
