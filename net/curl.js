@@ -3,9 +3,8 @@ const zlib = require('zlib');
 const url = require('url');
 
 function curl(u) {
-    const req = http.request(Object.assign({method: 'get'},
-    url.parse(u)),
-    (res) => {
+    const req = http.request(Object.assign({method: 'get'}, 
+                url.parse(u)), (res) => {
         const encoding = res.headers['content-encoding'];
         const location = res.headers['location'];
         const chunks = [];

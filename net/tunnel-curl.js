@@ -4,8 +4,7 @@ const url = require('url');
 const net = require('net');
 
 function curl(opts) {
-    const req = http.request(opts)
-                    .on('connect', (res, sock, head) => {
+    const req = http.request(opts).on('connect', (res, sock, head) => {
         let chunks = [];
 
         sock.write(`GET / HTTP/1.1\r\n` + 

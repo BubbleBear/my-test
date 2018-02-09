@@ -5,10 +5,10 @@ const DummyCipher = require('../cipher/dummy');
 
 function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: DummyCipher}) {
     return function tunnelProxy(cReq, cSock, head) {
-        let u = url.parse('http://' + cReq.url);
-        u.port || (u.port = 80);
+        let options = url.parse('http://' + cReq.url);
+        options.port || (options.port = 80);
 
-        let sSock = net.connect({port: u.port, host: u.hostname}, () => {
+        let sSock = net.connect({port: options.port, host: options.hostname}, () => {
             cSock.write('HTTP/1.1 200 Connection Established\r\n\r\n');
             sSock.write(head);
             sSock.pipe(new Cipher()).pipe(cSock);
