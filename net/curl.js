@@ -33,4 +33,5 @@ function curl(u) {
     req.end();
 }
 
-curl('http://wiki.mwbyd.cn/pages/viewpage.action?pageId=12258482');
+// curl('http://wiki.mwbyd.cn/pages/viewpage.action?pageId=12258482');
+curl('http://nodejs.org/dist/latest-v8.x/docs/api/http.html#http_event_connect')
