@@ -8,9 +8,9 @@ function curl(opts) {
                     .on('connect', (res, sock, head) => {
         let chunks = [];
 
-        sock.write('GET / HTTP/1.1\r\n' + 
-                    'Host: wiki.mwbyd.cn\r\n' + 
-                    'Connection: close\r\n\r\n');
+        sock.write(`GET / HTTP/1.1\r\n` + 
+                    `Host: ${url.parse('http:\/\/' + opts.path).host}\r\n` + 
+                    `Connection: close\r\n\r\n`);
 
         sock.on('data', chunk => {
             chunks.push(chunk);
@@ -33,7 +33,7 @@ function curl(opts) {
             if (location) {
                 req.abort();
                 res.destroy();
-                sock.destroy();
+                sock.end();
                 curl({
                     hostname: 'localhost',
                     port: 5555,
@@ -55,6 +55,6 @@ curl({
     hostname: 'localhost',
     port: 5555,
     method: 'connect',
-    // path: 'wiki.mwbyd.cn/pages/viewpage.action?pageId=12258482'
+    path: 'wiki.mwbyd.cn/pages/viewpage.action?pageId=12258482'
     // path: 'localhost:8080/supply-chain1.7.1/#g=1&p=%E8%B0%83%E6%8B%A8'
 })
