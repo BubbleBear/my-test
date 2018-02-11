@@ -24,7 +24,7 @@ function curl(opts, capture) {
             let status = headers[0].split(' ');
             let location;
 
-            // console.log(headers)
+            console.log(headers)
             capture.end();
 
             for (let header of headers) {

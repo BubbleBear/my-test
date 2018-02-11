@@ -6,5 +6,5 @@ const PROXY_PORT = 5555;
 
 const server = http.createServer()
     .on('connect', tunnelProxyWrapper())
-    .on('request', legacyProxyWrapper())
+    // .on('request', legacyProxyWrapper())
     .listen(PROXY_PORT);

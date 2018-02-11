@@ -14,7 +14,7 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
                 hostname: 'localhost',
                 port: 5555,
                 method: 'connect',
-                path: `${options.hostname}:${options.port || 443}${options.path}`
+                path: `${options.hostname}:${options.port || 80}${options.path}`
             }
             const c = tunnelCurl(connectOptions, cRes.socket);
             cReq.pipe(new Cipher()).pipe(c);
