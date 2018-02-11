@@ -2,9 +2,8 @@ const http = require('http');
 const zlib = require('zlib');
 const url = require('url');
 
-function curl(u) {
-    const req = http.request(Object.assign({method: 'get'}, 
-                url.parse(u)), (res) => {
+function curl(options) {
+    const req = http.request(options, (res) => {
         const encoding = res.headers['content-encoding'];
         const location = res.headers['location'];
         const chunks = [];
@@ -16,7 +15,9 @@ function curl(u) {
             curl(location);
         }
 
-        res.on('data', chunk => {chunks.push(chunk)});
+        res.on('data', chunk => {
+            chunks.push(chunk)
+        });
         res.on('end', () => {
             let buff = Buffer.concat(chunks);
             switch(encoding) {
@@ -33,5 +34,7 @@ function curl(u) {
     req.end();
 }
 
-// curl('http://wiki.mwbyd.cn/pages/viewpage.action?pageId=12258482');
-curl('http://nodejs.org/dist/latest-v8.x/docs/api/http.html#http_event_connect')
+curl({
+    hostname: 'nodejs.org',
+    path: '/dist/latest-v8.x/docs/api/tls.html'
+});
