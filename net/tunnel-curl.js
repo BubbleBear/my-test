@@ -3,7 +3,7 @@ const zlib = require('zlib');
 const url = require('url');
 const net = require('net');
 
-function curl(opts) {
+function curl(opts, capture) {
     const req = http.request(opts).on('connect', (res, sock, head) => {
         let chunks = [];
         let u = url.parse('http://' + opts.path);
@@ -14,6 +14,7 @@ function curl(opts) {
 
         sock.on('data', chunk => {
             chunks.push(chunk);
+            capture.write(chunk);
         }).once('end', onend);
 
         function onend() {
@@ -24,6 +25,7 @@ function curl(opts) {
             let location;
 
             // console.log(headers)
+            capture.end();
 
             for (let header of headers) {
                 if (header.indexOf('Location:') === 0) {
@@ -43,16 +45,15 @@ function curl(opts) {
                 });
             }
 
-            console.log(response)
             if (status[1] == 200) {
-                console.log(response[1]);
+                // console.log(response[1]);
             }
         }
     }).on('error', err => {
         console.log(err);
     });
 
-    req.end()
+    return req;
 }
 
 if (require.main === module) {
@@ -64,6 +65,8 @@ if (require.main === module) {
         path: 'nodejs.org/dist/latest-v8.x/docs/api/tls.html'
         // path: 'localhost:8080/supply-chain1.7.1/#g=1&p=%E8%B0%83%E6%8B%A8'
     });
+
+    req.end();
 }
 
 module.exports = curl;

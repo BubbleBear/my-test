@@ -7,7 +7,6 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
     return function tunnelProxy(cReq, cSock, head) {
         let options = url.parse('http://' + cReq.url);
         options.port || (options.port = 80);
-        console.log(options)
 
         let sSock = net.connect({port: options.port, host: options.hostname}, () => {
             cSock.write('HTTP/1.1 200 Connection Established\r\n\r\n');

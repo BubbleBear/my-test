@@ -2,7 +2,6 @@ const http = require('http');
 const url = require('url');
 const DummyCipher = require('../cipher/dummy');
 
-const tunnel = require('./tunnel-proxy')();
 const tunnelCurl = require('../net/tunnel-curl');
 
 function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: DummyCipher}) {
@@ -10,18 +9,17 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
         let options = url.parse(cReq.url);
         options.headers = cReq.headers;
 
-        // if (options.protocol == 'https:' || options.port == 443) {
-        //     const connectOptions = {
-        //         hostname: 'localhost',
-        //         port: 5555,
-        //         path: `${options.hostname}:${options.port || 443}${options.path}`
-        //     }
-        //     console.log(connectOptions)
-        //     const sock = tunnelCurl(connectOptions);
-        //     // cReq.pipe(new Cipher()).pipe(sock);
-        //     // sock.pipe(new Decipher()).pipe(cRes);
-        //     return;
-        // }
+        if (1) {
+            const connectOptions = {
+                hostname: 'localhost',
+                port: 5555,
+                method: 'connect',
+                path: `${options.hostname}:${options.port || 443}${options.path}`
+            }
+            const c = tunnelCurl(connectOptions, cRes.socket);
+            cReq.pipe(new Cipher()).pipe(c);
+            return;
+        }
 
         let sReq = http.request(options, (sRes) => {
             cRes.writeHead(sRes.statusCode, sRes.headers);
