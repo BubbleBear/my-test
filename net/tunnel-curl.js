@@ -9,12 +9,12 @@ function curl(opts) {
         let u = url.parse('http://' + opts.path);
 
         sock.write(`GET ${u.path} HTTP/1.1\r\n` + 
-                    `Host: ${u.host}\r\n` + 
+                    `Host: ${u.host}${u.port ? ':' + u.port : ''}\r\n` + 
                     `Connection: close\r\n\r\n`);
 
         sock.on('data', chunk => {
             chunks.push(chunk);
-        }).once('end', onend)
+        }).once('end', onend);
 
         function onend() {
             let buffer = Buffer.concat(chunks);
@@ -23,7 +23,7 @@ function curl(opts) {
             let status = headers[0].split(' ');
             let location;
 
-            console.log(headers)
+            // console.log(headers)
 
             for (let header of headers) {
                 if (header.indexOf('Location:') === 0) {
@@ -43,6 +43,7 @@ function curl(opts) {
                 });
             }
 
+            console.log(response)
             if (status[1] == 200) {
                 console.log(response[1]);
             }
@@ -51,15 +52,18 @@ function curl(opts) {
         console.log(err);
     });
 
-    req.end();
+    req.end()
 }
 
-curl({
-    hostname: 'localhost',
-    port: 5555,
-    method: 'connect',
-    // path: 'wiki.mwbyd.cn/pages/viewpage.action?pageId=12258482'
-    path: 'nodejs.org'
-    // path: 'nodejs.org/dist/latest-v8.x/docs/api/http.html#http_event_connect'
-    // path: 'localhost:8080/supply-chain1.7.1/#g=1&p=%E8%B0%83%E6%8B%A8'
-})
+if (require.main === module) {
+    const req = curl({
+        hostname: 'localhost',
+        port: 5555,
+        method: 'connect',
+        // path: 'wiki.mwbyd.cn/pages/viewpage.action?pageId=12258482'
+        path: 'nodejs.org/dist/latest-v8.x/docs/api/tls.html'
+        // path: 'localhost:8080/supply-chain1.7.1/#g=1&p=%E8%B0%83%E6%8B%A8'
+    });
+}
+
+module.exports = curl;
