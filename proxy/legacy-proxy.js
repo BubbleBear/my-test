@@ -1,22 +1,30 @@
 const http = require('http');
 const url = require('url');
 const DummyCipher = require('../cipher/dummy');
-
 const tunnelCurl = require('../net/tunnel-curl');
+
+const REQUIRED = (require.main !== module);
 
 function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: DummyCipher}) {
     return function legacyProxy(cReq, cRes) {
         let options = url.parse(cReq.url);
         options.headers = cReq.headers;
 
-        if (1) {
+        if (REQUIRED) {
             const connectOptions = {
                 hostname: 'localhost',
                 port: 5555,
                 method: 'connect',
-                path: `${options.hostname}:${options.port || 80}${options.path}`
+                path: `${options.hostname}:${options.port || 80}${options.path}`,
+                inner: {
+                    httpVersion: cReq.httpVersion,
+                    method: cReq.method,
+                    headers: options.headers
+                }
             }
-            const c = tunnelCurl(connectOptions, cRes.socket);
+            const decipher = new Decipher();
+            const c = tunnelCurl(connectOptions, decipher);
+            cRes.socket && decipher.pipe(cRes.socket);
             cReq.pipe(new Cipher()).pipe(c);
             return;
         }
@@ -32,7 +40,7 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
     };
 }
 
-if (require.main === module) {
+if (!REQUIRED) {
     const PROXY_PORT = 5555;
 
     const server = http.createServer()

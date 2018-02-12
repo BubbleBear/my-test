@@ -1,31 +1,33 @@
 const http = require('http');
 const zlib = require('zlib');
 const url = require('url');
-const net = require('net');
+
+const REQUIRED = (require.main !== module);
 
 function curl(opts, capture) {
     const req = http.request(opts).on('connect', (res, sock, head) => {
         let chunks = [];
-        let u = url.parse('http://' + opts.path);
 
-        sock.write(`GET ${u.path} HTTP/1.1\r\n` + 
-                    `Host: ${u.host}${u.port ? ':' + u.port : ''}\r\n` + 
-                    `Connection: close\r\n\r\n`);
+        let headers = assembleHeaders(opts);
+        sock.write(headers);
+        console.log(headers)
 
         sock.on('data', chunk => {
             chunks.push(chunk);
-            capture.write(chunk);
+            capture && capture.write(chunk);
         }).once('end', onend);
 
         function onend() {
+            capture && capture.end();
+            if (REQUIRED) {
+                return;
+            }
+
             let buffer = Buffer.concat(chunks);
             let response = buffer.toString().split('\r\n\r\n');
             let headers = response[0].split('\r\n');
             let status = headers[0].split(' ');
             let location;
-
-            console.log(headers)
-            capture.end();
 
             for (let header of headers) {
                 if (header.indexOf('Location:') === 0) {
@@ -46,7 +48,7 @@ function curl(opts, capture) {
             }
 
             if (status[1] == 200) {
-                // console.log(response[1]);
+                console.log(response[1]);
             }
         }
     }).on('error', err => {
@@ -56,7 +58,21 @@ function curl(opts, capture) {
     return req;
 }
 
-if (require.main === module) {
+function assembleHeaders(opts) {
+    const uri = url.parse('http://' + opts.path);
+
+    let headers = `${REQUIRED ? opts.inner.method.toUpperCase() : 'GET'} ${uri.path} ` +
+                `HTTP/${opts.inner.httpVersion ? opts.inner.httpVersion : 1.1}\r\n`;
+    if (REQUIRED) {
+        for (const k in opts.inner.headers) {
+            headers += `${k}: ${opts.inner.headers[k]}\r\n`
+        }
+    }
+    headers += '\r\n';
+    return headers;
+}
+
+if (!REQUIRED) {
     const req = curl({
         hostname: 'localhost',
         port: 5555,

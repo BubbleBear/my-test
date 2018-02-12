@@ -3,11 +3,12 @@ const net = require('net');
 const url = require('url');
 const DummyCipher = require('../cipher/dummy');
 
+const REQUIRED = (require.main !== module);
+
 function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: DummyCipher}) {
     return function tunnelProxy(cReq, cSock, head) {
         let options = url.parse('http://' + cReq.url);
         options.port || (options.port = 80);
-        console.log(options)
 
         let sSock = net.connect({port: options.port, host: options.hostname}, () => {
             cSock.write('HTTP/1.1 200 Connection Established\r\n\r\n');
@@ -20,7 +21,7 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
     }
 }
 
-if (require.main === module) {
+if (!REQUIRED) {
     const PROXY_PORT = 6666;
 
     const server = http.createServer()
