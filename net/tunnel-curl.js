@@ -14,7 +14,7 @@ function curl(opts, capture) {
 
         sock.on('data', chunk => {
             chunks.push(chunk);
-            capture && capture.write(chunk);
+            capture.write(chunk);
         }).once('end', onend);
 
         function onend() {
@@ -60,11 +60,14 @@ function curl(opts, capture) {
 
 function assembleHeaders(opts) {
     const uri = url.parse('http://' + opts.path);
+    const method = REQUIRED ? opts.inner.method.toUpperCase() : 'GET';
+    const httpVersion = opts.inner.httpVersion ? opts.inner.httpVersion : 1.1;
 
-    let headers = `${REQUIRED ? opts.inner.method.toUpperCase() : 'GET'} ${uri.path} ` +
-                `HTTP/${opts.inner.httpVersion ? opts.inner.httpVersion : 1.1}\r\n`;
+    let headers = `${method} ${uri.path} HTTP/${httpVersion}\r\n` + 
+                `connection: close\r\n`;
     if (REQUIRED) {
         for (const k in opts.inner.headers) {
+            if (k.includes('connection')) continue;
             headers += `${k}: ${opts.inner.headers[k]}\r\n`
         }
     }
