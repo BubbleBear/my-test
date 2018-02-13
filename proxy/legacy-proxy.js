@@ -22,10 +22,10 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
                     headers: options.headers
                 }
             }
-            const decipher = new Decipher();
-            const c = tunnelCurl(connectOptions, decipher);
-            cRes.socket && decipher.pipe(cRes.socket);
-            cReq.pipe(new Cipher()).pipe(c);
+            tunnelCurl(connectOptions).then((sock) => {
+                cReq.pipe(new Cipher(), {end: false}).pipe(sock);
+                sock.pipe(new Decipher()).pipe(cRes.socket);
+            })
             return;
         }
 
