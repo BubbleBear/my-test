@@ -1,6 +1,7 @@
 const http = require('http');
 const net = require('net');
 const url = require('url');
+const string2readable = require('../utils/string2readable');
 const DummyCipher = require('../cipher/dummy');
 
 const REQUIRED = (require.main !== module);
@@ -11,8 +12,8 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
         options.port || (options.port = 80);
 
         let sSock = net.connect({port: options.port, host: options.hostname}, () => {
-            cSock.write('HTTP/1.1 200 Connection Established\r\n\r\n');
-            sSock.write(head);
+            string2readable('HTTP/1.1 200 Connection Established\r\n\r\n').pipe(new Cipher()).pipe(cSock);
+            string2readable(head).pipe(new Decipher()).pipe(sSock);
             sSock.pipe(new Cipher()).pipe(cSock);
             cSock.pipe(new Decipher()).pipe(sSock);
         }).on('error', (e) => {
