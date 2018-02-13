@@ -12,8 +12,8 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
         options.port || (options.port = 80);
 
         let sSock = net.connect({port: options.port, host: options.hostname}, () => {
-            string2readable('HTTP/1.1 200 Connection Established\r\n\r\n').pipe(new Cipher()).pipe(cSock);
-            string2readable(head).pipe(new Decipher()).pipe(sSock);
+            string2readable('HTTP/1.1 200 Connection Established\r\n\r\n').pipe(new Decipher()).pipe(cSock);
+            string2readable(head).pipe(new Cipher()).pipe(sSock);
             sSock.pipe(new Cipher()).pipe(cSock);
             cSock.pipe(new Decipher()).pipe(sSock);
         }).on('error', (e) => {
@@ -23,7 +23,7 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
 }
 
 if (!REQUIRED) {
-    const PROXY_PORT = 6666;
+    const PROXY_PORT = 5555;
 
     const server = http.createServer()
         .on('connect', proxyWrapper())

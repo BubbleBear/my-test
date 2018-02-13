@@ -23,8 +23,8 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
                 }
             }
             tunnelCurl(connectOptions).then((sock) => {
-                cReq.pipe(new Cipher(), {end: false}).pipe(sock);
-                sock.pipe(new Decipher()).pipe(cRes.socket);
+                cReq.pipe(new Decipher(), {end: false}).pipe(sock);
+                sock.pipe(new Cipher()).pipe(cRes.socket);
             })
             return;
         }
