@@ -1,6 +1,7 @@
 const http = require('http');
 const zlib = require('zlib');
 const url = require('url');
+const string2readable = require('../utils/string2readable');
 
 const REQUIRED = (require.main !== module);
 
@@ -10,8 +11,14 @@ function curl(opts) {
             resolve(sock)
             let chunks = [];
 
-            let headers = assembleHeaders(opts);
-            sock.write(headers);
+            if (!REQUIRED || opts.inner) {
+                let headers = assembleHeaders(opts);
+                if (opts.inner.Cipher) {
+                    string2readable(headers).pipe(new opts.inner.Cipher()).pipe(sock);
+                } else {
+                    string2readable(headers).pipe(sock);
+                }
+            }
 
             if (!REQUIRED) {
                 sock.on('data', chunk => {
@@ -19,7 +26,8 @@ function curl(opts) {
                 }).once('end', () => {onend(chunks)});
             }
         }).on('error', err => {
-            console.log(err);
+            console.log('error in tunnel-curl', err);
+            reject(err);
         });
 
         req.end();
@@ -28,7 +36,7 @@ function curl(opts) {
 
 function assembleHeaders(opts) {
     const uri = url.parse('http://' + opts.path);
-    const method = REQUIRED ? opts.inner.method.toUpperCase() : 'GET';
+    const method = opts.inner && opts.inner.method ? opts.inner.method.toUpperCase() : 'GET';
     const httpVersion = opts.inner && opts.inner.httpVersion ? opts.inner.httpVersion : 1.1;
 
     // connection has to be close for now, which is to be optimized
@@ -36,7 +44,7 @@ function assembleHeaders(opts) {
                 `connection: close\r\n`;
     opts.inner && opts.inner.headers.host || (headers += `host: ${uri.host}\r\n`);
 
-    if (REQUIRED) {
+    if (opts.inner && opts.inner.headers) {
         for (const k in opts.inner.headers) {
             if (k.includes('connection')) continue;
             headers += `${k}: ${opts.inner.headers[k]}\r\n`

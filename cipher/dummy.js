@@ -10,8 +10,7 @@ module.exports = class Dummy extends Transform {
     }
 
     _transform(chunk, encoding, callback) {
-        this.push(chunk, encoding);
-        // this.push(this.reverse(chunk), encoding);
+        this.push(this.reverse(chunk), encoding);
         callback();
     }
 

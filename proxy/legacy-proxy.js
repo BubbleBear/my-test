@@ -19,12 +19,13 @@ function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: Dummy
                 inner: {
                     httpVersion: cReq.httpVersion,
                     method: cReq.method,
-                    headers: options.headers
+                    headers: options.headers,
+                    Cipher: Cipher
                 }
             }
-            tunnelCurl(connectOptions).then((sock) => {
-                cReq.pipe(new Decipher(), {end: false}).pipe(sock);
-                sock.pipe(new Cipher()).pipe(cRes.socket);
+            tunnelCurl(connectOptions).then((socket) => {
+                cReq.pipe(new Cipher(), {end: false}).pipe(socket);
+                socket.pipe(new Decipher).pipe(cRes.socket);
             })
             return;
         }
