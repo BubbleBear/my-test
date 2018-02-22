@@ -1,5 +1,11 @@
-const string = 'asdf'
+const t = Buffer.from('abc');
 
-const buffer = Buffer.from(string)
+const k = f(t)
 
-console.log(buffer)
+function f(s) {
+    return s.map((v) => {
+        return 256 - v;
+    })
+}
+
+console.log(f(k).toString())

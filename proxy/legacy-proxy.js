@@ -7,7 +7,7 @@ const REQUIRED = (require.main !== module);
 
 function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: DummyCipher}) {
     return function legacyProxy(cReq, cRes) {
-        let options = url.parse(cReq.url);
+        let options = url.parse(cReq.url.indexOf('http') ? 'http://' + cReq.url: cReq.url);
         options.headers = cReq.headers;
 
         if (REQUIRED) {

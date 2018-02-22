@@ -8,7 +8,7 @@ const REQUIRED = (require.main !== module);
 
 function proxyWrapper({Cipher, Decipher} = {Cipher: DummyCipher, Decipher: DummyCipher}) {
     return function tunnelProxy(cReq, cSock, head) {
-        let options = url.parse('http://' + cReq.url);
+        let options = url.parse(cReq.url.indexOf('http') ? 'http://' + cReq.url: cReq.url);
         options.port || (options.port = 80);
 
         let sSock = net.connect({port: options.port, host: options.hostname}, () => {
