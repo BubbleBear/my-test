@@ -1,10 +1,9 @@
 {
     "server": {
+        "hostname": "localhost",
         "port": 5555
     },
     "client": {
-        "port": 6666,
-        "serverHostname": "localhost",
-        "serverPort": 5555
+        "port": 6666
     }
 }

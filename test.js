@@ -1,11 +1,25 @@
-const t = Buffer.from('abc');
+const http = require('http');
+const net = require('net');
 
-const k = f(t)
-
-function f(s) {
-    return s.map((v) => {
-        return 256 - v;
+new Promise((resolve, reject) => {
+    http.createServer()
+    .on('request', (req, res) => {
+        res.end('server received');
     })
-}
+    .on('connect', (req, sock, head) => {
+        console.log('server connect method received')
+    }).listen('5678');
+    resolve();
+}).then(() => {
+    const opts = {
+        hostname: 'localhost',
+        port: 5678,
+        path: 'localhost:5004',
+        method: 'connect'
+    };
 
-console.log(f(k).toString())
+    http.request(opts)
+    .on('connect', (res, sock, head) => {
+        sock.end('asdf');
+    }).end();
+});

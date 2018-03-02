@@ -22,7 +22,7 @@ const eventList = {
 }
 
 const client = net.createConnection({port: SERVER_PORT}, () => {
-    client.write(Symbol('hello').toString());
+    client.write('hello world');
 });
 
 for (let event in eventList) {

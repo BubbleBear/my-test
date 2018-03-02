@@ -1,6 +1,6 @@
 const dgram = require('dgram');
 
-const server = dgram.createSocket('udp6');
+const server = dgram.createSocket('udp4');
 
 const serverPort = 5001;
 
