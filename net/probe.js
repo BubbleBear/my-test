@@ -4,6 +4,8 @@ const NS_PER_SEC = 1e9;
 const startTime = process.hrtime();
 
 const socket = net.connect({
+    // host: 'baidu.com',
+    // host: 'nodejs.org',
     host: 'google.com',
     port: 80
 }, () => {
@@ -28,5 +30,5 @@ const socket = net.connect({
     socket.destroy();
 })
 
-socket.setTimeout(1000)
+socket.setTimeout(100)
 socket.write('hello\r\n\r\n');

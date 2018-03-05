@@ -8,6 +8,7 @@ new Promise((resolve, reject) => {
     })
     .on('connect', (req, sock, head) => {
         console.log('server connect method received')
+        sock.pipe(process.stdout)
     }).listen('5678');
     resolve();
 }).then(() => {
