@@ -15,8 +15,12 @@ function curl(options) {
             curl(location);
         }
 
-        res.on('data', chunk => {
-            chunks.push(chunk)
+        // res.on('data', chunk => {
+        //     chunks.push(chunk)
+        // });
+        res.on('readable', () => {
+            let r = res.read();
+            r && chunks.push(r);
         });
         res.on('end', () => {
             let buff = Buffer.concat(chunks);
