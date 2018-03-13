@@ -1,6 +1,6 @@
 const net = require('net');
 
-const socket = net.connect({ port: 52013 }, () => {
+const socket = net.connect({ port: 52013, host: '120.79.224.128' }, () => {
     socket.write(`${__filename} connected`);
 })
 .on('data', (chunk) => {
