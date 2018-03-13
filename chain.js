@@ -1,3 +1,5 @@
-const test = require('./test');
+const fs = require('fs');
 
-module.exports = test;
+const ws = fs.createWriteStream('tmp');
+
+ws.write('asdf');
