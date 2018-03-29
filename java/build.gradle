@@ -1,0 +1,14 @@
+apply plugin: 'java'
+
+def grpcv = '1.10.0'
+
+dependencies {
+    compile "io.grpc:grpc-netty:${grpcv}"
+    compile "io.grpc:grpc-protobuf:${grpcv}"
+    compile "io.grpc:grpc-stub:${grpcv}"
+}
+
+repositories {
+    mavenCentral()
+    mavenLocal()
+}

@@ -39,6 +39,6 @@ function curl(options) {
 }
 
 curl({
-    hostname: 'nodejs.org',
-    path: '/dist/latest-v8.x/docs/api/tls.html'
+    hostname: 'fanyi.baidu.com',
+    path: '/?aldtype=85'
 });
