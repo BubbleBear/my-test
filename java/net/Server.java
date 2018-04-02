@@ -1,8 +1,10 @@
 import java.lang.Runnable;
-import java.net.*;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.ServerSocket;
 import java.io.IOException;
 
-public class Server implements Callback {
+public class Server{
     private ServerSocket server = new ServerSocket();
 
     public static Integer port = 7777;
@@ -28,10 +30,6 @@ public class Server implements Callback {
             new Thread(new Handler(sock)).start();
         }
     }
-
-    public Integer invoke(Object a) {
-        return null;
-    }
 }
 
 class Handler implements Runnable {
@@ -42,6 +40,6 @@ class Handler implements Runnable {
     }
 
     public void run() {
-        ;
+        System.out.println("asdf");
     }
 }
