@@ -2,7 +2,11 @@ import java.lang.Runnable;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.ServerSocket;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 
 public class Server{
     private ServerSocket server = new ServerSocket();
@@ -12,9 +16,9 @@ public class Server{
     public static void main(String[] args) {
         try {
             Server s = new Server();
-            s.listen(s.port);
+            s.listen(Server.port);
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -35,11 +39,27 @@ public class Server{
 class Handler implements Runnable {
     private Socket socket;
 
-    Handler(Socket sock) {
+    private InputStream is;
+
+    private OutputStream os;
+
+    Handler(Socket sock) throws IOException {
         socket = sock;
+        is = socket.getInputStream();
+        os = socket.getOutputStream();
+        System.out.println("connected with " + socket.getRemoteSocketAddress());
     }
 
     public void run() {
-        System.out.println("asdf");
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+        String buff;
+        try {
+            while ((buff = br.readLine()) != null) {
+                System.out.println(buff);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
