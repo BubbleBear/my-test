@@ -1,12 +1,29 @@
 {
   "name": "directory-scanner",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "dist",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": {
+    "name": "Vessel Vatel",
+    "email": "vesselvatel@gmail.com"
+  },
+  "bugs": {
+    "url": "https://github.com/BubbleBear/directory-scanner/issues"
+  },
+  "homepage": "https://github.com/BubbleBear/directory-scanner#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BubbleBear/directory-scanner.git"
+  },
+  "keywords": [
+    "directory",
+    "recursive",
+    "fs",
+    "path"
+  ],
   "license": "ISC",
   "dependencies": {
     "@types/node": "^10.0.0"
