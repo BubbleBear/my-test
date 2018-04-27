@@ -1,5 +1,5 @@
 {
-  "name": "trivils",
+  "name": "directory-scanner",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bluebird": "^3.5.1",
-    "formidable": "^1.2.1"
+    "@types/node": "^10.0.0"
   }
 }

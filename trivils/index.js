@@ -1,20 +1,29 @@
-const Pro = require('bluebird');
+const http = require('http');
+const fs = require('fs');
+const formidable = require('formidable');
 
-const r = new Pro((resolve, reject) => {
-    setTimeout(() => {
-        resolve('hmmm');
-    }, 500);
-});
+const server = http.createServer()
+    .on('request', (req, res) => {
+        const path = req.url.split('?')[0];
+        route[path] && route[path](req, res) || res.end('');
+    }).listen('8989');
 
-const s = new Promise((resolve, reject) => {
-    setTimeout(() => {
-        resolve('ssss');
-    }, 500);
-});
+const route = {
+    '/': (req, res) => {
+        fs.createReadStream('./upload.html').pipe(res);
+        return true;
+    },
 
-async function k() {
-    const t = await s;
-    console.log(t);
+    '/upload': (req, res) => {
+        const ws = fs.createWriteStream('./tmp');
+        const form = new formidable.IncomingForm();
+        form.uploadDir = './';
+        form.keepExtensions = true;
+
+        form.parse(req, () => {
+            console.log('ok');
+            res.end('');
+        })
+        return true;
+    }
 }
-
-k();
