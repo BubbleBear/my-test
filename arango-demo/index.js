@@ -17,14 +17,13 @@ async function test() {
 
 async function getCaseById(id) {
     try {
-        console.log(aql`RETURN DOCUMENT('test/${id}')`)
-        const cursor = await db.query(aql`RETURN DOCUMENT('test/${id}')`);
+        const cursor = await db.query(aql`RETURN DOCUMENT(CONCAT('test/', ${id}))`);
         let res = await cursor.all();
         console.log(res);
-
     } catch (e) {
         console.log(e.stack);
     }
 }
 
 getCaseById(1937);
+// test();
