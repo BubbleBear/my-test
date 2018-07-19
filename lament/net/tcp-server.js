@@ -10,25 +10,33 @@ const serverEventList = {
     listening() {
         const addr = this.address();
         console.log(`start listening at ${addr.address}:${addr.port} with ${addr.family}`);
+    },
+
+    connection() {
+        console.log('\n');
     }
 };
 
 const socketEventList = {
-    error(err) {
-        console.log(err);
-        this.close();
-    },
-
-    connect() {
-        console.log(`connected with ${this.remoteAddress}:${this.remotePort} with ${this.remoteFamily}`);
-    },
-
     data(chunk) {
         if (chunk != null) {
             console.log(chunk.toString());
             this.write('received');
         }
-    }
+    },
+
+    end() {
+        console.log('client disconnected')
+    },
+
+    close(hadError) {
+        console.log('closed')
+    },
+
+    error(err) {
+        console.log(err)
+        this.end()
+    },
 };
 
 const server = net.createServer((socket) => {

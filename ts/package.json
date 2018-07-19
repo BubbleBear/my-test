@@ -1,5 +1,5 @@
 {
-  "name": "heng",
+  "name": "ts",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "ioredis": "^3.2.2"
+    "@types/node": "^10.3.2",
+    "tslib": "^1.9.2",
+    "typescript": "^2.9.1"
   }
 }
