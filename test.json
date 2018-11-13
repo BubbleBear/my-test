@@ -1,0 +1,316 @@
+{
+    "supplyUser": {
+        "fsShopGUID": "216747",
+        "userId": "15298353522",
+        "userName": "胡彤",
+        "system": "false",
+        "shopName": "移动端叫美味体验店（供应链成本测试店3多仓店）",
+        "fsCompanyGUID": "88240001",
+        "fsCompanyName": "移动端初始化（勿动）",
+        "fsContact": "",
+        "fsCellphoneCt": "",
+        "area": "",
+        "fsAddr": "sdddsd",
+        "fiShopKind": "7",
+        "fiShopKind_t": "直营",
+        "fsFoodTradeId_t": "中式正餐",
+        "fiBatchManage": "0",
+        "fiMaterialEdit": "0",
+        "fiSupplyEdit": "0",
+        "fiUnDoMode": "0",
+        "fiSupportPay": "0",
+        "fiCheckShowNum": "1",
+        "fdPayRate": "1.00000",
+        "fdWallet": "0.000000",
+        "fdPayPeriod": "30",
+        "paymentDays": "",
+        "checkdataAuth": {
+            "fsDepartmentBind": "1",
+            "fsDishBomSet": "1"
+        },
+        "data_accuracy": {
+            "int": "2",
+            "price": "2",
+            "rate": "2"
+        },
+        "shopType": "D",
+        "standard": "",
+        "shopMode": "0",
+        "auditing_model": "1",
+        "auth": [
+            {
+                "projId": "mBookOrder",
+                "name": "订货单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mBookOrder",
+                "name": "订货单_新增/编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mBookOrder",
+                "name": "订货单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mDepartment",
+                "name": "部门_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mInvbackup",
+                "name": "盘点_新增/编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mInvbackup",
+                "name": "盘点_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mInvbackup",
+                "name": "盘点_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mInvbackup",
+                "name": "盘点_提交",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mMaterial",
+                "name": "物料_新增",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mMaterial",
+                "name": "物料_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPickingi",
+                "name": "退料单_编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPickingi",
+                "name": "退料单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPickingi",
+                "name": "退料单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPickingo",
+                "name": "领料单_编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPickingo",
+                "name": "领料单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPickingo",
+                "name": "领料单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPurchaseOrder",
+                "name": "采购单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPurchaseOrder",
+                "name": "采购单_新增/编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mPurchaseOrder",
+                "name": "采购单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportloss",
+                "name": "报损单_编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportloss",
+                "name": "报损单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportloss",
+                "name": "报损单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportStatistics",
+                "name": "报表统计_菜品毛利",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportStatistics",
+                "name": "报表统计_库存余量",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportStatistics",
+                "name": "报表统计_入库明细",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportStatistics",
+                "name": "报表统计_出库明细",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportStatistics",
+                "name": "报表统计_耗用差异",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportStatistics",
+                "name": "报表统计_应付对账",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mReportStatistics",
+                "name": "报表统计_应付对账支付",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mShop",
+                "name": "门店_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mStocki",
+                "name": "采购入库单_编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mStocki",
+                "name": "采购入库单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mStocki",
+                "name": "采购入库单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mStocko",
+                "name": "采购退货单_编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mStocko",
+                "name": "采购退货单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mStocko",
+                "name": "采购退货单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mStorage",
+                "name": "仓库_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mSupplier",
+                "name": "供应商_新增/编辑",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mSupplier",
+                "name": "供应商_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransferi",
+                "name": "调拨入库单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransferi",
+                "name": "调拨入库单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransfero",
+                "name": "调拨出库单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransfero",
+                "name": "调拨出库单_审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransferorder",
+                "name": "调拨单_店内调拨",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransferorder",
+                "name": "调拨单_店间审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransferorder",
+                "name": "调拨单_店间调拨",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransferorder",
+                "name": "调拨单_查看",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mTransferorder",
+                "name": "调拨单_店内审核",
+                "isEnable": "1"
+            },
+            {
+                "projId": "mWallet",
+                "name": "钱包_查看",
+                "isEnable": "1"
+            }
+        ],
+        "mobile": "15298353522"
+    },
+    "fsStorageId": "001",
+    "list": [
+        {
+            "fsMaterialId": "001",
+            "fsMaterialName": "土豆",
+            "fdCostPrice": "6.00",
+            "fdQty": "5",
+            "fsModelno": "5kg/箱",
+            "fsUnitId": "001"
+        },
+        {
+            "fsMaterialId": "002",
+            "fsMaterialName": "鸡肉",
+            "fdCostPrice": "15",
+            "fdQty": "10",
+            "fsModelno": "",
+            "fsUnitId": "001"
+        },
+        {
+            "fsMaterialId": "003",
+            "fsMaterialName": "牛肉",
+            "fdCostPrice": "76",
+            "fdQty": "10",
+            "fsModelno": "",
+            "fsUnitId": "001"
+        }
+    ]
+}

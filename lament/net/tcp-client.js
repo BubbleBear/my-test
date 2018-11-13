@@ -5,6 +5,7 @@ const PROXY_PORT = 5003;
 
 const eventList = {
     connect() {
+        this.write('hello world');
         console.log(`local info: ${this.localAddress}:${this.localPort}`);
         console.log(`connected with ${this.remoteAddress}:${this.remotePort} with ${this.remoteFamily}`);
     },
@@ -20,20 +21,18 @@ const eventList = {
         console.log('ended');
     },
 
-    close() {
+    close(e) {
         // this.end()
         console.log('closed');
     },
 
     error(err) {
-        console.log(err)
-        this.destroy();
+        console.log(err.toString())
+        // this.destroy();
     },
 }
 
-const client = net.createConnection({port: SERVER_PORT}, () => {
-    client.write('hello world');
-});
+const client = net.createConnection({port: SERVER_PORT});
 
 for (let event in eventList) {
     client.on(event, eventList[event].bind(client));

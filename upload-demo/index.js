@@ -10,7 +10,7 @@ const server = http.createServer()
 
 const route = {
     '/': (req, res) => {
-        fs.createReadStream('./upload.html').pipe(res);
+        fs.createReadStream(__dirname + '/upload.html').pipe(res);
         return true;
     },
 

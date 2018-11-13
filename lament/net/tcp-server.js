@@ -12,8 +12,11 @@ const serverEventList = {
         console.log(`start listening at ${addr.address}:${addr.port} with ${addr.family}`);
     },
 
-    connection() {
+    connection(socket) {
         console.log('\n');
+        setTimeout(() => {
+            socket.emit('error')
+        }, 100);
     }
 };
 
@@ -35,7 +38,7 @@ const socketEventList = {
 
     error(err) {
         console.log(err)
-        this.end()
+        // this.end()
     },
 };
 
