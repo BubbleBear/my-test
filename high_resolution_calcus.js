@@ -2,6 +2,12 @@ function multiply(a, b) {
     a = num2arr(a).reverse();
     b = num2arr(b).reverse();
 
+    const ap = point(a);
+    const bp = point(b);
+
+    ap && a.splice(ap, 1);
+    bp && b.splice(bp, 1);
+
     let c = ['0'];
 
     for (let i = 0; i < a.length; i++) {
@@ -11,6 +17,8 @@ function multiply(a, b) {
         c[i] = c[i].slice(-1);
     }
 
+    c = Array.from(c.join(''));
+    c.splice(ap + bp, 0, '.');
     return c.reverse().join('');
 }
 
@@ -33,6 +41,9 @@ function _multiply(revArrNum, oneBitNum) {
     return c;
 }
 
+function point(n) {
+    return n.find(v => v === '.') && n.findIndex(v => v === '.') || 0;
+}
 
 // should be replaced with high resolution sum
 function sum(a, b) {
@@ -50,7 +61,7 @@ function num2arr(n) {
 }
 
 const a = 9999;
-const b = 9999;
+const b = 0.9;
 
 const c = multiply(a, b);
 
