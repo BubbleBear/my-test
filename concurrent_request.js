@@ -1,7 +1,7 @@
 const http = require('http');
 const stream = require('stream');
 
-const CONCURS = 10000;
+const CONCURS = 1000;
 
 function all(promises) {
     return new Promise((resolve, reject) => {
@@ -24,10 +24,10 @@ function all(promises) {
 
 const pendingRequests = Array(CONCURS).fill(async () => new Promise((resolve, reject) => {
     const req = http.request({
-        hostname: null,
-        port: 5004,
-        // hostname: 'www.baidu.com',
-        // port: null,
+        // hostname: null,
+        // port: 5004,
+        hostname: 'www.baidu.com',
+        port: null,
     }, (res) => {
         const chunks = [];
 
