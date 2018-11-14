@@ -17,6 +17,7 @@ function multiply(a, b) {
         c[i] = c[i].slice(-1);
     }
 
+    c.push(Array.from(c.pop()).reverse().join(''));
     c = Array.from(c.join(''));
     c.splice(ap + bp, 0, '.');
     return c.reverse().join('');
@@ -60,8 +61,8 @@ function num2arr(n) {
     return null;
 }
 
-const a = 9999;
-const b = 0.9;
+const a = 135346.521423;
+const b = 2435.436346;
 
 const c = multiply(a, b);
 
