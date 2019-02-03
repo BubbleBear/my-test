@@ -1,19 +1,39 @@
-function camelize(str) {
-    return str.replace(/[-_][a-z]/ig, val => {
-        return val.slice(1, 2).toUpperCase();
-    });
-}
+const stream = require('stream');
 
-const x = [
-    'asdf_asdf',
-    'asdfAsdf',
-    '_',
-    '',
-    'asdf-_asdf',
-    'asdf_asdf-asdf',
-];
+const rs = new stream.Readable({ read() {} });
 
-x.forEach(v => {
-    console.log(camelize(v));
-    // camelize(v);
-});
+const ws = new stream.Writable({ write(chunk, encoding, callback) { callback() } });
+
+rs
+.on('close', () => {
+    console.log('rs close');
+})
+.on('end', () => {
+    console.log('rs end');
+})
+.on('error', (error) => {
+    console.log('rs error: ', error);
+})
+
+ws
+.on('close', () => {
+    console.log('ws close');
+})
+.on('finish', () => {
+    console.log('ws finish');
+})
+.on('error', (error) => {
+    console.log('ws error: ', error);
+})
+
+rs.pipe(ws)
+
+rs.push('asdf')
+
+setTimeout(() => {
+    rs.emit('end')
+    ws.write(null)
+    rs.emit('error', 'fdsa')
+    rs.push(null)
+    rs.destroy('asdf')
+}, 1000);
