@@ -15,7 +15,7 @@ const serverEventList = {
     connection(socket) {
         console.log('\n');
         setTimeout(() => {
-            socket.emit('error')
+            socket.emit('error', 'shutting')
         }, 100);
     }
 };
@@ -38,7 +38,7 @@ const socketEventList = {
 
     error(err) {
         console.log(err)
-        // this.end()
+        this.destroy();
     },
 };
 

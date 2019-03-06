@@ -5,7 +5,9 @@ const PROXY_PORT = 5003;
 
 const eventList = {
     connect() {
+        console.log('\n');
         this.write('hello world');
+        this.end();
         console.log(`local info: ${this.localAddress}:${this.localPort}`);
         console.log(`connected with ${this.remoteAddress}:${this.remotePort} with ${this.remoteFamily}`);
     },
@@ -17,12 +19,10 @@ const eventList = {
     },
 
     end() {
-        // this.end()
         console.log('ended');
     },
 
     close(e) {
-        // this.end()
         console.log('closed');
     },
 
