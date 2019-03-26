@@ -8,4 +8,5 @@ let request = http.request('http://localhost:5004', (res) => {
     console.log(e);
 });
 
-request.flushHeaders();
+// request.flushHeaders();
+request.end()

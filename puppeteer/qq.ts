@@ -1,22 +1,22 @@
 import * as puppeteer from 'puppeteer';
-import * as fs from 'fs';
 
-// const ws = fs.createWriteStream('b.html');
-
-async function createBrowser() {
-    const browser = await puppeteer.launch({
+async function createBrowser(options = {}) {
+    const browser = await puppeteer.launch(Object.assign({
         defaultViewport: {
-            width: 1390,
-            height: 876,
-        },
-    });
+            width: 1920,
+            height: 1200,
+        }
+    }, options));
 
     return browser;
 }
 
 async function createPage(browser: puppeteer.Browser, url: string) {
     const page = await browser.newPage();
-    await page.goto(url);
+    await page.goto(url, {
+        waitUntil: 'domcontentloaded',
+        timeout: 100000,
+    });
     page.setDefaultTimeout(10000);
 
     return page;
@@ -29,21 +29,27 @@ async function firstTimeLogin(page: puppeteer.Page) {
     return qqLoginBtn;
 }
 
-async function login(page: puppeteer.Page, user) {
-    const loginBtn = await page.waitForSelector('#js_login');
-    await loginBtn.click();
-
-    await firstTimeLogin(page);
-
-    await page.waitFor(1000);
+export async function findLoginFrame(page, frameNames = [ 'login_frame_qq', 'ptlogin_iframe' ]) {
+    if (!Array.isArray(frameNames)) {
+        frameNames = [ frameNames ];
+    }
 
     const loginFrame = await new Promise<puppeteer.Frame>((resolve, reject) => {
         page
             .on('requestfinished', (request) => {
-                request.frame().name() === 'login_frame_qq' && resolve(request.frame());
+                frameNames.includes(request.frame().name())
+                && resolve(request.frame());
             });
+        
+        setTimeout(() => {
+            reject('timeout');
+        }, 10000);
     });
 
+    return loginFrame;
+}
+
+export async function login(loginFrame: puppeteer.Frame, user) {
     try {
         const switchLoginMethodBtn = await loginFrame.waitForSelector('#switcher_plogin');
         await switchLoginMethodBtn.click();
@@ -65,35 +71,47 @@ async function register(page) {
     await registerBtn.click();
 }
 
-(async (user) => {
-    const browser = await createBrowser();
+export async function procedure(user) {
+    const browser = await createBrowser({
+        args: [
+            // 'proxy-server=localhost:6665'
+        ]
+    });
 
     const page = await createPage(browser, 'https://ke.qq.com/course/111347?flowToken=1005530');
 
     try {
-        await login(page, user);
+        const loginBtn = await page.waitForSelector('#js_login');
+        await loginBtn.click();
+
+        await firstTimeLogin(page);
+
+        await page.waitFor(10000);
+
+        const loginFrame = await findLoginFrame(page);
+
+        await login(loginFrame, user);
         
         const skipBtn = await page.waitForSelector('section.mobile-verify .js-skip-btn.btn-weak.btn-m.btn-skip');
         await skipBtn.click();
 
         await register(page);
     } catch (e) {
+        await page.waitFor(10000);
         await page.screenshot({
-            path: `${'x'}.png`,
+            path: `${'1'}.png`,
         });
         console.log(e);
     }
 
     await page.waitFor(1000);
 
-    // await page.screenshot({
-    //     path: 'g.png',
-    // });
-
-    // ws.close();
-
     await browser.close();
-})({
-    u: '962927921',
-    p: '52parents',
+}
+
+require.main === module && procedure({
+    u: '136875815',
+    p: 'strive4thelord',
+    // u: '962927921',
+    // p: '52parents',
 });
