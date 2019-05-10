@@ -7,20 +7,23 @@
     "lib": "lib"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "crypto-js": "^3.1.9-1",
     "delegates": "^1.0.0",
     "geolite2": "^1.2.1",
     "graphql": "^0.13.2",
     "http-proxy-agent": "^2.1.0",
-    "https-proxy-agent": "^2.2.1",
+    "ioredis": "^4.9.0",
     "ip2region": "^1.6.0",
     "iplocation": "^6.1.0",
     "js-md5": "^0.7.3",
     "koa": "^2.5.2",
+    "libsodium-wrappers": "^0.7.4",
     "lodash": "^4.17.11",
     "maxmind": "^2.12.0",
-    "mongodb": "^3.1.13",
+    "mongodb": "^3.2.3",
     "mongoose": "^5.4.19",
+    "proxy-agent": "^3.1.0",
     "puppeteer": "^1.13.0"
   },
   "devDependencies": {
